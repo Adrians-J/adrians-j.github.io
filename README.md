@@ -1,2 +1,2 @@
-# Adriāns J
-Sveiki mani sauc Adriāns.J un šī ir mana github lapa :P
+# Pirma GitHub site
+Sveiki Šeit Adriāns Jērcītis un es šeit izveidoju ļoti mazu site ar pārsvara neko te.
