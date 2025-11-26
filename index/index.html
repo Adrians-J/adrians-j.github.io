@@ -1,13 +1,253 @@
-<!DOCTYPE html>
-<html lang="en">
+<!--
+  Vienkāršs responsīvs portfolio šablons
+  - HTML + iebūvēts CSS un neliela JS navigācijai
+  - Aizstāj saturu (vārdu, aprakstus, projektus, kontaktinformāciju)
+  - Saglabā kā index.html un publicē uz GitHub Pages (branch: main vai gh-pages)
+-->
+
+<!doctype html>
+<html lang="lv">
 <head>
-    <meta charset="UTF-8">
-    <title>My Page</title>
-    <!-- Link CSS here -->
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adriāns J. — Portfolio</title>
+  <meta name="description" content="Adriāna personīgais portfolio — projekti, prasmes, kontakti." />
+
+  <!-- Fonts (sistēmas fonts, nav ārēju pieprasījumu) -->
+  <style>
+    :root{
+      --bg:#0f1724; /* tumšs fons */
+      --card:#0b1220;
+      --muted:#94a3b8;
+      --accent:#7dd3fc; /* gaiši zila akcents */
+      --glass: rgba(255,255,255,0.04);
+      --maxw:1100px;
+      --radius:12px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:linear-gradient(180deg,var(--bg), #071026);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      padding:32px 20px;
+    }
+    .container{max-width:var(--maxw);margin:0 auto}
+
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+    .brand{display:flex;gap:12px;align-items:center}
+    .avatar{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,#1e293b,#0b1220);display:flex;align-items:center;justify-content:center;font-weight:700}
+    nav{display:flex;gap:16px}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600}
+    nav a:hover{color:var(--accent)}
+
+    /* Mobile nav */
+    .menu-toggle{display:none;background:transparent;border:1px solid rgba(255,255,255,0.04);padding:6px;border-radius:8px}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:center;padding:28px 0}
+    .intro h1{font-size:32px;margin:0 0 6px}
+    .intro p{color:var(--muted);margin:0 0 12px}
+    .cta{display:flex;gap:10px}
+    .btn{background:linear-gradient(90deg,var(--accent),#60a5fa);color:#051027;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);font-weight:600}
+
+    .card{background:var(--card);padding:18px;border-radius:var(--radius);box-shadow:0 6px 20px rgba(2,6,23,0.6);}
+
+    /* Skills */
+    .skills{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .skill{background:var(--glass);padding:6px 8px;border-radius:999px;font-size:13px;color:var(--muted)}
+
+    /* Projects */
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:18px}
+    .project{padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.03)}
+    .project h3{margin:0 0 6px;font-size:16px}
+    .project p{margin:0;color:var(--muted);font-size:14px}
+    .project a{display:inline-block;margin-top:10px;text-decoration:none;font-weight:700;color:var(--accent)}
+
+    /* Contact */
+    .contact-grid{display:grid;grid-template-columns:1fr 320px;gap:18px;margin-top:22px}
+    form label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+    input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    textarea{min-height:120px}
+    .muted{color:var(--muted);font-size:14px}
+
+    footer{margin-top:36px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* Responsive */
+    @media (max-width:880px){
+      .hero{grid-template-columns:1fr}
+      .contact-grid{grid-template-columns:1fr}
+      nav{display:none}
+      .menu-toggle{display:inline-block}
+    }
+
+  </style>
 </head>
 <body>
-    <h1>Hello!</h1>
-    <p>This page uses CSS for black-and-white styling.</p>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="avatar">AJ</div>
+        <div>
+          <div style="font-weight:800">Adriāns J.</div>
+          <div class="muted" style="font-size:13px">Web izstrādātājs · Portfolio</div>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#about">Par mani</a>
+        <a href="#projects">Projekti</a>
+        <a href="#contact">Kontakti</a>
+        <a href="https://github.com/adrians-j" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+
+      <button class="menu-toggle" id="menuBtn" aria-expanded="false">M</button>
+    </header>
+
+    <section class="hero">
+      <div class="intro">
+        <h1>Čau — esmu Adriāns.</h1>
+        <p class="muted">Es izstrādāju tīmekļa risinājumus: front-end un vieglas back-end integrācijas. Zemāk ir daži no maniem projektiem un kā ar mani sazināties.</p>
+
+        <div class="skills">
+          <span class="skill">HTML</span>
+          <span class="skill">CSS</span>
+          <span class="skill">JavaScript</span>
+          <span class="skill">React</span>
+          <span class="skill">Node.js</span>
+        </div>
+
+        <div class="cta" style="margin-top:14px">
+          <a class="btn" href="#projects">Apskatīt projektus</a>
+          <a class="btn secondary" href="#contact">Sazināties</a>
+        </div>
+      </div>
+
+      <aside class="card">
+        <h3 style="margin-top:0">Atvērtās iespējas</h3>
+        <p class="muted">Meklēju iespējas front‑end izstrādē un freelance projektus. Esmu gatavs sadarboties īstermiņa un ilgtermiņa projektos.</p>
+
+        <div style="margin-top:12px">
+          <div class="muted">E‑pasts</div>
+          <div style="font-weight:700;margin-top:6px">adrians@example.com</div>
+        </div>
+
+        <div style="margin-top:12px">
+          <div class="muted">Atrašanās vieta</div>
+          <div style="font-weight:700;margin-top:6px">Rīga, Latvija</div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="about" class="card" style="margin-top:18px">
+      <h2>Par mani</h2>
+      <p class="muted">Īss apraksts par tevi — aizstāj šo tekstu ar savu īso biogrāfiju, pieredzi un to, ko tu vēlies izcelt. Piļoti var minēt tehnoloģijas, kuras pārzini, nozīmīgākos projektus un kontaktinformāciju.</p>
+    </section>
+
+    <section id="projects" style="margin-top:18px">
+      <h2>Projekti</h2>
+      <div class="projects-grid">
+        <!-- Piemēra projekti: aizstāj ar saviem -->
+        <article class="project">
+          <h3>Portfolio mājaslapa</h3>
+          <p class="muted">Vienkārša statiska portfolio lapa, veidota ar tīru HTML/CSS, hostēta uz GitHub Pages.</p>
+          <a href="#">Skatīt kodu</a>
+        </article>
+
+        <article class="project">
+          <h3>Interaktīvs UI</h3>
+          <p class="muted">Mazs SPA projekts ar React — interaktīvas komponentes un stāvokļa pārvaldība.</p>
+          <a href="#">Skatīt kodu</a>
+        </article>
+
+        <article class="project">
+          <h3>API integrācija</h3>
+          <p class="muted">Node.js serviss, kas apstrādā datus un nodrošina vienkāršu REST API.</p>
+          <a href="#">Skatīt kodu</a>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="contact" style="margin-top:22px">
+      <h2>Sazināties</h2>
+      <div class="contact-grid">
+        <div class="card">
+          <p class="muted">Nosūti īsu ziņu — es atbildēšu cik drīz vien varu.</p>
+
+          <!-- Veidlapa — noklusējuma darbība: mailto (vienkāršs). Lai izmantotu serveri, aizstāj action ar Formspree vai savu backendu -->
+          <form onsubmit="submitForm(event)">
+            <label for="name">Vārds</label>
+            <input id="name" name="name" placeholder="Tavs vārds" required />
+
+            <label for="email">E‑pasts</label>
+            <input id="email" name="email" type="email" placeholder="tavs@epasts.lv" required />
+
+            <label for="message">Ziņa</label>
+            <textarea id="message" name="message" placeholder="Īsa ziņa..." required></textarea>
+
+            <div style="margin-top:10px;display:flex;gap:10px">
+              <button class="btn" type="submit">Nosūtīt</button>
+              <a class="btn secondary" href="mailto:adrians@example.com">Rakstīt uz e‑pastu</a>
+            </div>
+          </form>
+
+        </div>
+
+        <aside class="card">
+          <h3>Kontakti</h3>
+          <p class="muted">
+            E‑pasts: <a href="mailto:adrians@example.com">adrians@example.com</a><br>
+            GitHub: <a href="https://github.com/adrians-j" target="_blank" rel="noopener">github.com/adrians-j</a>
+          </p>
+
+          <div style="margin-top:14px">
+            <div class="muted">Ātrie linki</div>
+            <nav style="display:flex;gap:8px;margin-top:8px">
+              <a class="muted" href="#about">Par mani</a>
+              <a class="muted" href="#projects">Projekti</a>
+              <a class="muted" href="#contact">Kontakti</a>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Adriāns J. — Izveidoja ar ❤️
+    </footer>
+  </div>
+
+  <script>
+    // Gads footerā
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Vienkārša mailto veidlapas apstrāde
+    function submitForm(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const subject = encodeURIComponent('Ziņa no portfolio — ' + name);
+      const body = encodeURIComponent('Vārds: ' + name + '\nE-pasts: ' + email + '\n\n' + message);
+      window.location.href = `mailto:adrians@example.com?subject=${subject}&body=${body}`;
+    }
+
+    // Mobilā menedžēšana (vienkārši)
+    const menuBtn = document.getElementById('menuBtn');
+    menuBtn?.addEventListener('click', ()=>{
+      const nav = document.querySelector('nav');
+      const shown = nav.style.display === 'flex';
+      nav.style.display = shown ? 'none' : 'flex';
+      menuBtn.setAttribute('aria-expanded', String(!shown));
+    });
+  </script>
 </body>
 </html>
+
